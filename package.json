@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "chrome-launcher": "^1.0.0",
+    "lighthouse": "^10.4.0"
+  }
+}
