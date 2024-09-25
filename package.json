@@ -3,5 +3,9 @@
   "dependencies": {
     "chrome-launcher": "^1.0.0",
     "lighthouse": "^10.4.0"
+  },
+  "scripts": {
+    "test:sync": "node index.js",
+    "test:async": "ASYNC_LIBS=1 node index.js"
   }
 }

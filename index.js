@@ -4,7 +4,7 @@ import fs from "fs";
 
 // DOCS: https://github.com/GoogleChrome/lighthouse/blob/HEAD/docs/readme.md#using-programmatically
 
-const url = "https://localhost:44051/prada/prada-paradoxe-parfemovana-voda-plnitelna-pro-zeny/p-16145465/";
+const url = "https://www.notino.cz/darkove-poukazky/";
 
 const main = async () => {
   const testRuns = [];
@@ -13,22 +13,28 @@ const main = async () => {
 
   const runTest = async (testName) => {
     console.log("RUNNING TEST " + testName);
-
-    const result = await lighthouse(
-      url,
-      { ogLevel: "info", onlyCategories: ["performance"], port: chrome.port, output: "json" },
-      {
-        extends: "lighthouse:default",
-        settings: {
-          onlyAudits: ["first-contentful-paint", "largest-contentful-paint", "total-blocking-time"],
-        },
-      }
-    );
-    return {
-      fcp: result.lhr.audits["first-contentful-paint"].numericValue,
-      lcp: result.lhr.audits["largest-contentful-paint"].numericValue,
-      tbt: result.lhr.audits["total-blocking-time"].numericValue,
-    };
+    try {
+      const result = await lighthouse(
+        url,
+        { ogLevel: "info", onlyCategories: ["performance"], port: chrome.port, output: "json" },
+        {
+          extends: "lighthouse:default",
+          settings: {
+            onlyAudits: ["first-contentful-paint", "largest-contentful-paint", "total-blocking-time"],
+          },
+        }
+      );
+      const vals = {
+        fcp: result.lhr.audits["first-contentful-paint"].numericValue,
+        lcp: result.lhr.audits["largest-contentful-paint"].numericValue,
+        tbt: result.lhr.audits["total-blocking-time"].numericValue,
+      };
+      console.log(vals);
+      return vals;
+    } catch (e) {
+      console.log(e);
+      return {};
+    }
   };
 
   const getAverages = () => {
